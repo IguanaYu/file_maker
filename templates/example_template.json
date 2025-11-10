@@ -1,0 +1,49 @@
+{
+  "template_id": "device_inspection_v1",
+  "name": "设备年度检验报告",
+  "blocks": [
+    {
+      "block_id": "report_title",
+      "block_type": "TITLE",
+      "template_description": "报告主标题，需要包含设备名称和年份信息。",
+      "generation_strategy": "TEMPLATE_FILL",
+      "template_text": "{inspection_year}年{device_name}检验报告",
+      "data_bindings": {
+        "inspection_year": "inspection.year",
+        "device_name": "device.name"
+      },
+      "constraints": {
+        "style": "formal"
+      }
+    },
+    {
+      "block_id": "device_overview",
+      "block_type": "SECTION_CONTENT",
+      "template_description": "介绍被检设备的背景信息、使用情况以及本次检验的重点。控制在200字以内。",
+      "generation_strategy": "LLM",
+      "data_bindings": {
+        "device_name": "device.name",
+        "device_type": "device.type",
+        "inspection_year": "inspection.year",
+        "usage_summary": "device.usage_summary"
+      },
+      "constraints": {
+        "max_words": "200",
+        "style": "formal"
+      }
+    },
+    {
+      "block_id": "measurement_table",
+      "block_type": "TABLE",
+      "template_description": "列出各检测项目的标准值与实测值。",
+      "generation_strategy": "FIXED",
+      "table_columns": [
+        {"header": "检测项目", "field": "item"},
+        {"header": "标准值", "field": "standard"},
+        {"header": "实测值", "field": "measured", "unit": "单位"},
+        {"header": "判定", "field": "conclusion"}
+      ],
+      "row_data_source": "inspection.measurements"
+    }
+  ]
+}

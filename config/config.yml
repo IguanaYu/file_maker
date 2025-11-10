@@ -1,0 +1,4 @@
+bailian:
+  api_key: "YOUR_BAILIAN_API_KEY"
+  endpoint: "https://api.bailian.example.com/v1/generate"
+  model: "bailian-report-writer"
