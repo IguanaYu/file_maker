@@ -1,4 +1,5 @@
 bailian:
-  api_key: "YOUR_BAILIAN_API_KEY"
-  endpoint: "https://api.bailian.example.com/v1/generate"
-  model: "bailian-report-writer"
+  # 留空则继续使用 DummyLLMClient
+  api_key: "sk-7856af137f174d3e96a5b6fc02db5e7b"
+  endpoint: "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+  model: "qwen-plus"

@@ -1,0 +1,45 @@
+{
+  "device": {
+    "name": "循环风机B99",
+    "type": "离心风机",
+    "location": "焙烧炉供风系统",
+    "manufacturer": "华东动力设备厂",
+    "usage_summary": "设备全年承担焙烧炉主风量输出，处于高温连续运行工况，2023 年完成叶轮加固、轴承换装及振动校正。",
+    "maintenance_highlights": [
+      "Q1 完成进出口消音器更换，降低运行噪声",
+      "Q2~Q3 开展轴承温升专项巡检，未见异常",
+      "Q4 结合大修对联轴器进行对中复测"
+    ]
+  },
+  "inspection": {
+    "year": "2023",
+    "team": "设备动力室与第三方检测中心联合组",
+    "focus": "验证大修后振动水平、风量输出及噪声控制是否满足安全生产要求",
+    "measurements": [
+      {
+        "item": "额定风量",
+        "standard": "≥ 85 m3/min",
+        "measured": "88",
+        "conclusion": "合格"
+      },
+      {
+        "item": "轴承振动",
+        "standard": "≤ 4.5 mm/s",
+        "measured": "3.1",
+        "conclusion": "合格"
+      },
+      {
+        "item": "轴承温升",
+        "standard": "≤ 65 ℃",
+        "measured": "58",
+        "conclusion": "合格"
+      },
+      {
+        "item": "噪声",
+        "standard": "≤ 65 dB",
+        "measured": "66",
+        "conclusion": "需跟踪"
+      }
+    ]
+  }
+}

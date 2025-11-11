@@ -21,6 +21,15 @@ class Settings:
     bailian_model: Optional[str] = None
 
 
+def _normalize(value: Optional[str]) -> Optional[str]:
+    """Strip whitespace and convert empty strings to ``None``."""
+
+    if value is None:
+        return None
+    stripped = value.strip()
+    return stripped or None
+
+
 def _parse_simple_yaml(text: str) -> Dict[str, Any]:
     """Parse extremely small YAML-like ``key: value`` files."""
 
@@ -40,13 +49,13 @@ def load_settings(path: str | Path | None = None) -> Settings:
     """Load configuration from YAML file and environment variables."""
 
     settings = Settings(
-        bailian_api_key=os.getenv("BAILIAN_API_KEY"),
-        bailian_endpoint=os.getenv("BAILIAN_ENDPOINT"),
-        bailian_model=os.getenv("BAILIAN_MODEL"),
+        bailian_api_key=_normalize(os.getenv("BAILIAN_API_KEY")),
+        bailian_endpoint=_normalize(os.getenv("BAILIAN_ENDPOINT")),
+        bailian_model=_normalize(os.getenv("BAILIAN_MODEL")),
     )
 
     if path is None:
-        path = Path("config/config.yml")
+        path = Path(__file__).resolve().parent / "config.yml"
     else:
         path = Path(path)
 
@@ -59,8 +68,14 @@ def load_settings(path: str | Path | None = None) -> Settings:
             data = _parse_simple_yaml(text)
         bailian_data = data.get("bailian", {})
         if isinstance(bailian_data, dict):
-            settings.bailian_api_key = bailian_data.get("api_key", settings.bailian_api_key)
-            settings.bailian_endpoint = bailian_data.get("endpoint", settings.bailian_endpoint)
-            settings.bailian_model = bailian_data.get("model", settings.bailian_model)
+            api_key = _normalize(bailian_data.get("api_key"))
+            endpoint = _normalize(bailian_data.get("endpoint"))
+            model = _normalize(bailian_data.get("model"))
+            if api_key is not None:
+                settings.bailian_api_key = api_key
+            if endpoint is not None:
+                settings.bailian_endpoint = endpoint
+            if model is not None:
+                settings.bailian_model = model
 
     return settings

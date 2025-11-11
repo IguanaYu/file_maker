@@ -1,0 +1,20 @@
+"""Shared prompt delimiter tokens used across the project."""
+from __future__ import annotations
+
+CONTEXT_START = "<<CONTEXT>>"
+CONTEXT_END = "<</CONTEXT>>"
+
+CONSTRAINTS_START = "<<CONSTRAINTS>>"
+CONSTRAINTS_END = "<</CONSTRAINTS>>"
+
+METADATA_START = "<<METADATA>>"
+METADATA_END = "<</METADATA>>"
+
+__all__ = [
+    "CONTEXT_START",
+    "CONTEXT_END",
+    "CONSTRAINTS_START",
+    "CONSTRAINTS_END",
+    "METADATA_START",
+    "METADATA_END",
+]
