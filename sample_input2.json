@@ -1,0 +1,54 @@
+{
+  "product": {
+    "name": "抗压力水杯套件",
+    "model": "AQ-500",
+    "brand": "清众集团 x Hydrotech 联合款",
+    "material": "航空级铝合金杯体 + 三层复合耐冲击外壳",
+    "scenario": "野外勘探与城市通勤双场景"
+  },
+  "function_overview": {
+    "core_features": [
+      "杯体在 -20℃ 至 80℃ 温差下保持结构稳定",
+      "模块化防护环可拆卸更换，适配不同强度冲击",
+      "食品级内胆涂层通过 SGS 无重金属认证"
+    ],
+    "usage_summary": "设计面向长期户外作业人员，强调保温、抗压与安全饮水三项指标的综合表现。"
+  },
+  "testing": {
+    "year": "2024",
+    "location": "清众集团材料实验中心",
+    "partners": [
+      "清众集团结构实验室",
+      "Hydrotech 材料工程团队"
+    ],
+    "focus": "验证抗压力结构件与水质安全监控模块在极端工况下的稳定性",
+    "collaboration_summary": "双方团队共同定义冲击、静压与微量物质含量的极限测试标准，确保外部恶劣环境下依旧可安全饮用。"
+  },
+  "measurement_items": [
+    {
+      "item": "有效容量",
+      "standard": "500 ± 10 ml",
+      "measured": "503 ml",
+      "conclusion": "合格",
+      "remarks": "静置 24h 后容量保持率 99.6%"
+    },
+    {
+      "item": "抗击打能力",
+      "standard": "1.5 m 跌落 10 次无结构裂纹",
+      "measured": "通过 12 次跌落测试",
+      "conclusion": "优于标准",
+      "remarks": "防护环磨损 <3%"
+    },
+    {
+      "item": "水中微量物质含量",
+      "standard": "铅/镉/镍 ≤ 0.005 mg/L",
+      "measured": "未检出",
+      "conclusion": "合格",
+      "remarks": "SGS 第三方复测一致"
+    }
+  ],
+  "section_titles": {
+    "function_intro": "核心功能概述（LLM生成）",
+    "testing_report": "联合检测报告（固定标题）"
+  }
+}

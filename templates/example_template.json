@@ -1,0 +1,97 @@
+{
+  "template_id": "pressure_resistant_bottle_v1",
+  "name": "抗压力水杯套件报告模板",
+  "blocks": [
+    {
+      "block_id": "main_report_title",
+      "block_type": "TITLE",
+      "template_description": "整份报告的固定标题。",
+      "generation_strategy": "FIXED",
+      "template_text": "抗压力水杯套件性能检测报告"
+    },
+    {
+      "block_id": "function_section_title",
+      "block_type": "TITLE",
+      "template_description": "请生成 10~15 字的功能介绍小标题，可适度融合产品型号或品牌调性。",
+      "generation_strategy": "LLM",
+      "data_bindings": {
+        "product_name": "product.name",
+        "product_model": "product.model",
+        "brand": "product.brand"
+      },
+      "constraints": {
+        "style": "concise"
+      }
+    },
+    {
+      "block_id": "function_section_content",
+      "block_type": "SECTION_CONTENT",
+      "template_description": "概述核心功能、应用场景以及突出亮点，适合放在功能介绍段落。",
+      "generation_strategy": "LLM",
+      "data_bindings": {
+        "product_name": "product.name",
+        "scenario": "product.scenario",
+        "material": "product.material",
+        "core_features": "function_overview.core_features",
+        "usage_summary": "function_overview.usage_summary"
+      },
+      "constraints": {
+        "style": "formal",
+        "max_words": "200"
+      }
+    },
+    {
+      "block_id": "testing_section_title",
+      "block_type": "TITLE",
+      "template_description": "检测报告段落固定标题。",
+      "generation_strategy": "FIXED",
+      "template_text": "联合检测报告"
+    },
+    {
+      "block_id": "testing_section_content",
+      "block_type": "SECTION_CONTENT",
+      "template_description": "描述与清众集团联合检测的背景、过程与重点结论。",
+      "generation_strategy": "LLM",
+      "data_bindings": {
+        "testing_year": "testing.year",
+        "location": "testing.location",
+        "partners": "testing.partners",
+        "focus": "testing.focus",
+        "collaboration_summary": "testing.collaboration_summary"
+      },
+      "constraints": {
+        "style": "formal",
+        "max_words": "220"
+      }
+    },
+    {
+      "block_id": "measurement_table",
+      "block_type": "TABLE",
+      "template_description": "列出容量、抗击打能力、水质等指标的标准值与检测结果。",
+      "generation_strategy": "FIXED",
+      "table_columns": [
+        {
+          "header": "检测项目",
+          "field": "item"
+        },
+        {
+          "header": "标准值",
+          "field": "standard"
+        },
+        {
+          "header": "实测结果",
+          "field": "measured"
+        },
+        {
+          "header": "结论",
+          "field": "conclusion"
+        },
+        {
+          "header": "备注",
+          "field": "remarks"
+        }
+      ],
+      "row_data_source": "measurement_items"
+    }
+  ]
+}
