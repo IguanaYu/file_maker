@@ -1,4 +1,4 @@
-"""Utilities for constructing prompts used to query LLMs."""
+"""构建提交给 LLM 的指令提示。"""
 from __future__ import annotations
 
 import json
@@ -19,7 +19,7 @@ from prompt_tokens import (
 
 
 def build_prompt_for_block(block: TemplateBlock, context_data: Dict[str, object]) -> str:
-    """Construct an instruction prompt for the provided block."""
+    """针对指定模板块构造一段 LLM 指令。"""
 
     resolved_data = resolve_bindings(context_data, block.data_bindings)
     data_json = json.dumps(resolved_data, ensure_ascii=False, indent=2)
@@ -39,26 +39,25 @@ def build_prompt_for_block(block: TemplateBlock, context_data: Dict[str, object]
     guidelines: List[str]
     if block.block_type == BlockType.TITLE:
         guidelines = [
-            "不要改动核心事实（如设备名称、年份、地点等）。",
-            "保持正式、专业、简洁的语气。",
-            "仅输出最终标题文本，不要添加额外解释或符号。",
+            "不要修改设备名称、年份、地点等核心事实。",
+            "保持正式、专业、简洁的语气，不使用标点装饰。",
+            "只输出最终标题文本，不添加解释或额外符号。",
         ]
     elif block.block_type == BlockType.SECTION_CONTENT:
         guidelines = [
-            "覆盖模板说明中提到的所有要点。",
-            "结合业务数据撰写 1–2 个自然段，语言客观严谨。",
-            "不得编造不存在的标准或数据；缺失信息保持沉默。",
-            "避免使用项目符号、小标题或与正文无关的说明。",
+            "完整覆盖模板说明中列出的要点。",
+            "结合业务数据撰写 1-2 个自然段，文字客观严谨。",
+            "严禁编造缺失的信息，若无数据则保持沉默。",
+            "不使用项目符号、小标题或与正文无关的说明。",
         ]
     else:
-        raise ValueError(f"Prompt builder does not support block type: {block.block_type}")
+        raise ValueError(f"暂不支持的块类型: {block.block_type}")
 
     guidelines_text = "\n".join(f"{index}. {text}" for index, text in enumerate(guidelines, start=1))
 
     prompt = dedent(
         f"""
-        你是一名负责撰写检验报告的专业写作者。
-        请根据元数据、业务数据与约束生成高质量内容。
+        你是一名负责撰写检验 / 产品报告的专业写作者，请根据以下信息输出中文内容。
 
         元数据:
         {METADATA_START}

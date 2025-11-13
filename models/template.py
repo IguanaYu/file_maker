@@ -1,4 +1,4 @@
-"""Data models describing templates for report generation."""
+"""描述报告模板结构的数据模型。"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -9,7 +9,7 @@ from .enums import BlockType, GenerationStrategy
 
 @dataclass(slots=True)
 class TemplateBlock:
-    """Describe an individual block inside a report template."""
+    """定义模板中的单个块。"""
 
     block_id: str
     block_type: BlockType
@@ -24,7 +24,7 @@ class TemplateBlock:
 
 @dataclass(slots=True)
 class ReportTemplate:
-    """Template configuration for a full report."""
+    """完整报告模板的配置。"""
 
     template_id: str
     name: str

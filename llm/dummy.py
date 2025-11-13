@@ -1,4 +1,4 @@
-"""Dummy LLM client useful for local development and testing."""
+"""用于本地调试的占位 LLM 客户端。"""
 from __future__ import annotations
 
 import json
@@ -17,12 +17,12 @@ from .base import LLMClient
 
 
 class DummyLLMClient(LLMClient):
-    """Return deterministic yet human-like responses without network calls."""
+    """在不发起网络请求的情况下，返回可读的中文示例内容。"""
 
     _FALLBACK_PREFIX: Final[str] = "[DUMMY LLM OUTPUT]"
 
     def generate_text(self, prompt: str) -> str:
-        """Generate lightweight Chinese text for supported block types."""
+        """针对部分块类型生成简要示例文本。"""
 
         metadata = self._extract_json(prompt, METADATA_START, METADATA_END)
         context = self._extract_json(prompt, CONTEXT_START, CONTEXT_END)
@@ -85,9 +85,7 @@ class DummyLLMClient(LLMClient):
 
         sentences = []
         if inspection_year:
-            sentences.append(
-                f"{inspection_year}年，{device_label}保持受控运行状态，整体性能稳定可靠。"
-            )
+            sentences.append(f"{inspection_year}年，{device_label}保持受控运行状态，整体性能稳定可靠。")
         else:
             sentences.append(f"{device_label}保持受控运行状态，整体性能稳定可靠。")
 

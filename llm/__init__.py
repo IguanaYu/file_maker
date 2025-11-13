@@ -1,4 +1,4 @@
-"""Expose public LLM client implementations."""
+"""LLM 客户端相关对外导出。"""
 from .bailian import BailianConfig, BailianLLMClient
 from .base import LLMClient
 from .dummy import DummyLLMClient

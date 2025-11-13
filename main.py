@@ -1,4 +1,4 @@
-"""Command line entry point demonstrating report generation flow."""
+"""命令行入口：演示如何按照模板与业务数据生成报告。"""
 from __future__ import annotations
 
 import argparse
@@ -16,14 +16,14 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 def build_sample_context() -> Dict[str, Any]:
-    """Return example business data used to populate the sample report."""
+    """返回一个示例业务数据，用于演示报告生成流程。"""
 
     return {
         "product": {
             "name": "抗压力水杯套件",
             "model": "PX-300",
             "brand": "清众集团",
-            "material": "航空铝 + 复合缓冲层",
+            "material": "航空级铝材 + 复合缓冲层",
             "scenario": "极寒作业与户外徒步",
         },
         "function_overview": {
@@ -71,28 +71,28 @@ def build_sample_context() -> Dict[str, Any]:
 
 
 def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate inspection reports from templates.")
+    parser = argparse.ArgumentParser(description="根据模板和输入数据生成中文报告。")
     parser.add_argument(
         "-i",
         "--input",
         dest="input_path",
         type=Path,
-        help="Path to a JSON file containing context data (defaults to built-in sample).",
+        help="输入业务数据的 JSON 文件路径，留空则使用内置示例。",
     )
     return parser.parse_args(argv)
 
 
 def _load_context_from_file(path: Path) -> Dict[str, Any]:
     if not path.exists():
-        raise FileNotFoundError(f"Context file not found: {path}")
+        raise FileNotFoundError(f"未找到输入文件: {path}")
     data = json.loads(path.read_text(encoding="utf-8-sig"))
     if not isinstance(data, dict):
-        raise ValueError("Context JSON must describe an object at the top level.")
+        raise ValueError("输入 JSON 顶层必须是对象（形如 { ... }）。")
     return data
 
 
 def _build_llm_client(settings: Settings) -> LLMClient:
-    """Select an LLM client based on user configuration."""
+    """根据配置自动选择 LLM 客户端。"""
 
     if (
         settings.bailian_api_key
@@ -110,7 +110,7 @@ def _build_llm_client(settings: Settings) -> LLMClient:
 
 
 def main(argv: Optional[List[str]] = None) -> None:
-    """Load a template, generate the report, and print it to stdout."""
+    """按模板生成报告并输出到终端。"""
 
     args = _parse_args(argv)
 

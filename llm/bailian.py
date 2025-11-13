@@ -1,4 +1,4 @@
-"""Client implementation targeting the Bailian large language model API."""
+"""对接阿里云百炼 API 的 LLM 客户端实现。"""
 from __future__ import annotations
 
 import json
@@ -11,7 +11,7 @@ from .base import LLMClient
 
 @dataclass(slots=True)
 class BailianConfig:
-    """Configuration values required to connect to the Bailian API."""
+    """调用百炼 API 所需的配置项。"""
 
     api_key: str
     endpoint: str
@@ -20,14 +20,14 @@ class BailianConfig:
 
 
 class BailianLLMClient(LLMClient):
-    """LLM client that communicates with the Bailian API over HTTPS."""
+    """通过 HTTPS 与百炼 API 通信的客户端。"""
 
     def __init__(self, config: BailianConfig) -> None:
         self._config = config
         self._opener = request.build_opener()
 
     def generate_text(self, prompt: str) -> str:
-        """Send the prompt to the Bailian API and return generated text."""
+        """向百炼 API 发送 Prompt 并返回生成结果。"""
 
         payload = {
             "model": self._config.model,
@@ -52,20 +52,20 @@ class BailianLLMClient(LLMClient):
                 response_body = resp.read().decode("utf-8")
         except error.HTTPError as exc:  # pragma: no cover - network I/O
             detail = exc.read().decode("utf-8", errors="ignore")
-            message = f"Bailian API request failed: {exc.code} {exc.reason} - {detail}"
+            message = f"百炼 API 请求失败: {exc.code} {exc.reason} - {detail}"
             raise RuntimeError(message) from exc
         except error.URLError as exc:  # pragma: no cover - network I/O
-            raise RuntimeError(f"Bailian API request error: {exc.reason}") from exc
+            raise RuntimeError(f"百炼 API 请求错误: {exc.reason}") from exc
 
         data = json.loads(response_body)
         text = self._extract_text(data)
         if not text:
-            raise RuntimeError(f"Bailian API response did not include text output: {data!r}")
+            raise RuntimeError(f"百炼 API 响应中未包含文本结果: {data!r}")
         return text.strip()
 
     @staticmethod
     def _extract_text(payload: Dict[str, Any]) -> Optional[str]:
-        """Extract textual content from a generic Bailian response."""
+        """从百炼响应中提取文本字段。"""
 
         output = payload.get("output")
         if isinstance(output, dict):
@@ -90,7 +90,7 @@ class BailianLLMClient(LLMClient):
                                 if isinstance(item, dict) and isinstance(item.get("text"), str):
                                     return item["text"]
 
-        # Fallback for simplified responses (e.g., {"text": "..."}).
+        # 兼容形如 {"text": "..."} 的极简结构。
         if isinstance(payload.get("text"), str):
             return payload["text"]
 

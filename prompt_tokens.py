@@ -1,4 +1,4 @@
-"""Shared prompt delimiter tokens used across the project."""
+"""项目中统一使用的 Prompt 分隔符常量。"""
 from __future__ import annotations
 
 CONTEXT_START = "<<CONTEXT>>"

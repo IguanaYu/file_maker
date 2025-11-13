@@ -1,52 +1,71 @@
-# 检验报告生成系统基础框架
+# 检验 / 产品报告生成框架
 
-该项目演示如何基于“报告模板 + 业务数据 + 大模型”生成检验报告文本。重点聚焦在模板结构、块处理逻辑以及大模型接口设计，未包含前端页面。
+该项目展示如何通过“结构化模板 + 业务数据 + 大语言模型（LLM）”自动生成中文报告文本。核心目标是验证模板化分块、数据绑定、LLM 调用与导出流程，暂未包含网页或 GUI。
 
-## 功能概览
+## 功能特点
 
-- 模板定义包含标题、章节正文、表格三类块。
-- 通过 `ReportEngine` 结合业务数据和 LLM 客户端生成 `ReportDocument`。
-- 支持从 JSON 文件加载模板，默认示例位于 `templates/example_template.json`。
-- 默认提供 `DummyLLMClient`，并预留 `BailianLLMClient` 以对接真实百炼接口。
-- 使用 `PlainTextExporter` 可将生成结果转换为易读文本。
+- **多块模板**：支持标题（TITLE）、正文（SECTION_CONTENT）、表格（TABLE）三类块，自由组合形成报告结构。
+- **灵活生成策略**：每个块可选择固定内容、占位符填充或调用 LLM 自动撰写。
+- **模板文件化**：模板以 JSON 描述，默认示例位于 `templates/example_template.json`，可轻松复制修改。
+- **LLM 抽象**：内置 Dummy 客户端便于本地调试，同时提供 Bailian 客户端以对接阿里云百炼接口。
+- **文本导出**：通过 `PlainTextExporter` 将生成结果渲染为易读的纯文本。
 
 ## 目录结构
 
 ```
-config/           # 配置文件和加载逻辑
-engine/           # 核心生成引擎与辅助工具
-export/           # 报告导出器
-llm/              # LLM 客户端抽象及实现
-models/           # 数据模型与枚举定义
+config/           # 配置文件与读取逻辑
+engine/           # 报告生成引擎、数据绑定、Prompt 构建
+export/           # 各类导出器（目前仅纯文本）
+llm/              # LLM 客户端抽象与实现
+models/           # 报告/模板相关数据模型与枚举
 templates/        # 模板示例与加载工具
 main.py           # 命令行演示入口
+USAGE.md          # 详细使用手册（模板 & 输入制作指南）
 ```
 
-## 快速开始
+## 快速体验
 
-1. 可选：在 `config/config.yml` 中填写百炼接口配置，或通过环境变量 `BAILIAN_API_KEY`、`BAILIAN_ENDPOINT`、`BAILIAN_MODEL` 进行设置。
-2. 运行命令：
+1. （可选）在 `config/config.yml` 中填写百炼 API 信息，或设置 `BAILIAN_API_KEY` / `BAILIAN_ENDPOINT` / `BAILIAN_MODEL` 环境变量。
+2. 在仓库根目录执行：
 
    ```bash
-   python main.py
+   python file_maker/main.py
    ```
 
-   程序会加载示例模板、构造演示数据，调用 `DummyLLMClient` 生成报告并输出到终端。
+   程序会加载默认模板与示例数据，调用 LLM 生成报告并打印到终端。
 
-> TODO: 接入真实百炼接口，并补充自动化测试与更多导出格式。
+## 切换百炼调用
 
-## 百炼接入
+1. 编辑 `config/config.yml`：
+   ```yaml
+   bailian:
+     api_key: "<你的真实 Key>"
+     endpoint: "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+     model: "qwen-plus"
+   ```
+2. 运行 `python file_maker/main.py`。程序会检测到配置齐全，自动启用 `BailianLLMClient` 并在输出末尾提示“已使用百炼接口生成正文”。
+3. 如遇报错，请检查网络、Key、Endpoint 是否正确，或查看百炼返回的错误信息。
 
-1. 在 config/config.yml 中填写真实的 pi_key、endpoint、model，或设置同名环境变量。字段留空时将自动回退到 DummyLLMClient。
-2. 执行 python main.py，程序会根据配置自动选择 BailianLLMClient，并在输出末尾提示当前模式。
-3. 若调用失败，可检查网络连通性、凭证以及接口返回的错误信息后重试。
+## 自定义输入
 
-## 自定义输入数据
+- 默认示例调用内置的演示数据。若要生成自己的报告，可按 `sample_input.json` / `sample_input2.json` 的格式准备 JSON。
+- 运行时通过 `--input` 参数指定：
 
-默认示例使用内置的演示数据。如需针对不同设备或检测结果生成报告，可准备一份 JSON 文件并在运行时通过参数传入：
+  ```bash
+  python file_maker/main.py --input file_maker/sample_input2.json
+  ```
 
-```bash
-python main.py --input my_context.json
-```
+- 请确保输入 JSON 中包含模板 `data_bindings` 所需的字段，详情参见 `USAGE.md`。
 
-JSON 根对象需包含 `device`、`inspection` 等模板绑定到的字段。结构可参考 `build_sample_context()` 或 `templates/example_template.json` 中的字段绑定说明。
+## 进阶（多模板 & 指南）
+
+- `USAGE.md` 提供面向“小白用户”的图文说明，包含模板制作、输入整理、命令示例和排错建议。
+- 若要支持多套模板，可复制 `templates/example_template.json` 为自定义文件，并在 `main.py` 中扩展 `--template` 参数（或直接覆盖默认模板）。
+
+## 后续计划
+
+- [ ] 接入更多 LLM / 输出格式（Markdown、Docx 等）
+- [ ] 增补自动化测试
+- [ ] 支持多模板选择或 Web 交互式配置
+
+欢迎根据业务场景自行扩展模板与输入数据，生成更贴合需求的报告文本。***

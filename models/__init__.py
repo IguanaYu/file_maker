@@ -1,4 +1,4 @@
-"""Aggregate exports for data models used in the project."""
+"""数据模型的集中导出入口。"""
 from .enums import BlockType, GenerationStrategy
 from .report import ReportBlockResult, ReportDocument
 from .template import ReportTemplate, TemplateBlock

@@ -1,11 +1,11 @@
-"""Enumerations used across the report generation system."""
+"""报告生成流程中使用的枚举类型。"""
 from __future__ import annotations
 
 from enum import Enum
 
 
 class BlockType(str, Enum):
-    """Types of blocks that compose a report template."""
+    """模板中支持的块类型。"""
 
     TITLE = "TITLE"
     SECTION_CONTENT = "SECTION_CONTENT"
@@ -13,7 +13,7 @@ class BlockType(str, Enum):
 
 
 class GenerationStrategy(str, Enum):
-    """Strategies describing how block content should be produced."""
+    """块内容的生成策略。"""
 
     FIXED = "FIXED"
     TEMPLATE_FILL = "TEMPLATE_FILL"

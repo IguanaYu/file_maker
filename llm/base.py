@@ -1,14 +1,14 @@
-"""Abstract base class describing an LLM client interface."""
+"""LLM 客户端的抽象基类。"""
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
 
 class LLMClient(ABC):
-    """Client capable of generating text from prompts."""
+    """负责根据 Prompt 生成文本的客户端接口。"""
 
     @abstractmethod
     def generate_text(self, prompt: str) -> str:
-        """Generate text according to the provided prompt."""
+        """根据 Prompt 返回生成结果。"""
 
         raise NotImplementedError

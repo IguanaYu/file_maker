@@ -1,4 +1,4 @@
-"""Plain text exporter for quick inspection of generated reports."""
+"""将报告渲染为便于检视的纯文本。"""
 from __future__ import annotations
 
 from typing import List
@@ -9,7 +9,7 @@ from .base import ReportExporter
 
 
 class PlainTextExporter(ReportExporter):
-    """Render a report document as human-readable plain text."""
+    """输出包含块编号、正文与表格的纯文本。"""
 
     def export(self, document: ReportDocument) -> str:
         lines: List[str] = [f"报告模板: {document.template_id}", ""]

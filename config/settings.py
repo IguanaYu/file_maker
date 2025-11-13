@@ -1,4 +1,4 @@
-"""Configuration helpers for the report generation system."""
+"""报告生成系统的配置读取工具。"""
 from __future__ import annotations
 
 import os
@@ -14,7 +14,7 @@ except ImportError:  # pragma: no cover - optional dependency
 
 @dataclass(slots=True)
 class Settings:
-    """Application level configuration values."""
+    """应用级配置项。"""
 
     bailian_api_key: Optional[str] = None
     bailian_endpoint: Optional[str] = None
@@ -22,7 +22,7 @@ class Settings:
 
 
 def _normalize(value: Optional[str]) -> Optional[str]:
-    """Strip whitespace and convert empty strings to ``None``."""
+    """去除首尾空白，并把空字符串转换为 ``None``。"""
 
     if value is None:
         return None
@@ -31,7 +31,7 @@ def _normalize(value: Optional[str]) -> Optional[str]:
 
 
 def _parse_simple_yaml(text: str) -> Dict[str, Any]:
-    """Parse extremely small YAML-like ``key: value`` files."""
+    """解析仅包含 ``key: value`` 的极简 YAML 文本。"""
 
     result: Dict[str, Any] = {}
     for line in text.splitlines():
@@ -46,7 +46,7 @@ def _parse_simple_yaml(text: str) -> Dict[str, Any]:
 
 
 def load_settings(path: str | Path | None = None) -> Settings:
-    """Load configuration from YAML file and environment variables."""
+    """从 YAML 文件与环境变量加载配置。"""
 
     settings = Settings(
         bailian_api_key=_normalize(os.getenv("BAILIAN_API_KEY")),

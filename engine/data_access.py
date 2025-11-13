@@ -1,25 +1,11 @@
-"""Utility helpers for accessing context data structures."""
+"""访问业务数据结构的实用工具。"""
 from __future__ import annotations
 
 from typing import Any, Dict
 
 
 def resolve_data_path(context: Dict[str, Any], path: str) -> Any:
-    """Resolve a dotted path from the provided context data.
-
-    Parameters
-    ----------
-    context:
-        The hierarchical data structure storing business information.
-    path:
-        Dotted path (e.g., ``"device.name"``) to be resolved.
-
-    Returns
-    -------
-    Any
-        The value found at the path, or ``None`` if any part of the
-        path is missing.
-    """
+    """根据点号路径（如 ``device.name``）从上下文中取值，任一层缺失则返回 ``None``。"""
 
     current: Any = context
     for part in path.split("."):
@@ -31,6 +17,6 @@ def resolve_data_path(context: Dict[str, Any], path: str) -> Any:
 
 
 def resolve_bindings(context: Dict[str, Any], bindings: Dict[str, str]) -> Dict[str, Any]:
-    """Return a dictionary mapping placeholder names to resolved values."""
+    """根据绑定配置批量解析数据路径，返回占位符到实际值的映射。"""
 
     return {placeholder: resolve_data_path(context, path) for placeholder, path in bindings.items()}

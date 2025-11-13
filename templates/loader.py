@@ -1,4 +1,4 @@
-"""Load report templates from JSON files."""
+"""从 JSON 文件加载报告模板。"""
 from __future__ import annotations
 
 import json
@@ -9,7 +9,7 @@ from models import BlockType, GenerationStrategy, ReportTemplate, TemplateBlock
 
 
 def load_report_template_from_json(path: str | Path) -> ReportTemplate:
-    """Load a report template definition from a JSON file."""
+    """读取并解析指定路径的模板定义。"""
 
     path = Path(path)
     data: Dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
